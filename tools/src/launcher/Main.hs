@@ -35,7 +35,7 @@ import           Options.Applicative (Parser, execParser, footerDoc, fullDesc, h
                                       info, infoOption, long, metavar, progDesc, short, strOption)
 import           Serokell.Aeson.Options (defaultOptions)
 import           System.Directory (createDirectoryIfMissing, doesFileExist, removeFile)
-import           System.Environment (getEnv, getExecutablePath)
+import           System.Environment (getEnv, getExecutablePath, getEnvironment)
 import           System.Exit (ExitCode (..))
 import           System.FilePath ((</>))
 import qualified System.IO as IO
@@ -170,6 +170,8 @@ getLauncherOptions = do
         --     updateWindowsRunner, launcherLogsPrefix
         -- %DAEDALUS_DIR%: nodePath, walletPath
         appdata <- toText <$> getEnv "APPDATA"
+        fullEnv <- getEnvironment
+        traceShowM fullEnv
         daedalusDir <- toText <$> getEnv "DAEDALUS_DIR"
         let replaceAppdata = replace "%APPDATA%" appdata
             replaceDaedalusDir = replace "%DAEDALUS_DIR%" daedalusDir
